@@ -186,7 +186,7 @@ elif st.session_state.active_tab_index == 2:
 st.markdown("---    ")
 st.sidebar.header("Settings & Info")
 if not GEMINI_API_KEY:
-    st.sidebar.error("GEMINI_API_KEY not set. Please set the environment variable.")
+    st.sidebar.error("GEMINI_API_KEY not found in Streamlit secrets. Please add it to .streamlit/secrets.toml.")
     st.sidebar.markdown(
         "Get your Gemini API Key from [Google AI Studio](https://aistudio.google.com/app/apikey).")
 else:
