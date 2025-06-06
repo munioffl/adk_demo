@@ -1,0 +1,6 @@
+streamlit
+google-adk
+google-generativeai # For Gemini API integration
+python-dotenv
+python-docx
+PyPDF2

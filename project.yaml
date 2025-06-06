@@ -1,0 +1,4 @@
+agent:
+  name: ManagerAgent
+  language: python
+  entry_point: agents/manager_agent.py
