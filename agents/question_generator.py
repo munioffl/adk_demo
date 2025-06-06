@@ -14,7 +14,7 @@ class QuestionGenerator:
     def __init__(self):
         print("QuestionGenerator initialized.")
 
-    def generate(self, skills: Union[List[str], str], experience: int) -> Optional[str]:
+    def generate(self, skills: Union[List[str], str], experience: int, difficulty: str) -> Optional[str]:
         """
         Generates a coding question based on the provided skills and experience.
         Uses Gemini API.
@@ -22,6 +22,7 @@ class QuestionGenerator:
         Args:
             skills: A list of skills (e.g., ["Python", "Django"]) or a single skill string.
             experience: Years of experience as an integer.
+            difficulty: The desired difficulty of the question (e.g., "Easy", "Medium", "Hard").
 
         Returns:
             A string containing the generated coding question, or None if generation fails.
@@ -38,12 +39,12 @@ class QuestionGenerator:
             print("QuestionGenerator: Invalid type for experience argument, must be int.")
             return None
 
-        prompt = f"""Generate a medium-difficulty coding question suitable for a candidate with the following skills: {skills_str} and {experience} years of experience.
-The question should be solvable in approximately 30-45 minutes and focus on practical problem-solving.
+        prompt = f"""Generate a {difficulty}-difficulty coding question suitable for a candidate with the following skills: {skills_str} and {experience} years of experience.
+The question should be solvable in approximately 30-45 minutes for its difficulty level and focus on practical problem-solving.
 Provide only the question text itself, without any preamble, labels, explanations, or markdown formatting. Just the plain text of the question.
 """
         try:
-            print(f"QuestionGenerator: Generating question for skills: '{skills_str}', experience: {experience} years...")
+            print(f"QuestionGenerator: Generating {difficulty} question for skills: '{skills_str}', experience: {experience} years...")
             
             question_text = generate_text_from_gemini(prompt)
 

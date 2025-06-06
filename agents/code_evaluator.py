@@ -18,7 +18,7 @@ class CodeEvaluator:
         """Initializes the CodeEvaluator agent."""
         print("CodeEvaluator initialized.")
 
-    def evaluate(self, question: str, code_submission: str) -> Optional[str]:
+    def evaluate(self, question: str, code_submission: str, language: str) -> Optional[str]:
         """
         Evaluates the submitted code against the given question using Gemini API,
         expecting a JSON response for structured feedback.
@@ -26,12 +26,13 @@ class CodeEvaluator:
         Args:
             question: The coding question that was asked.
             code_submission: The candidate's code solution.
+            language: The detected programming language of the submission.
 
         Returns:
             A Markdown string containing structured feedback (table and text),
             or None if evaluation fails or response is not as expected.
         """
-        print(f"CodeEvaluator: Evaluating code for question: '{question[:70]}...'" )
+        print(f"CodeEvaluator: Evaluating {language} code for question: '{question[:70]}...'" )
 
         prompt = f"""
 Analyze the following code submission based on the provided coding question.
@@ -62,7 +63,7 @@ Coding Question:
 ```
 
 Candidate's Code Submission:
-```python
+```{language}
 {code_submission}
 ```
 

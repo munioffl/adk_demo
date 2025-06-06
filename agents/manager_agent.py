@@ -12,19 +12,20 @@ class ManagerAgent:
         self.code_evaluator = CodeEvaluator()
         print("ManagerAgent initialized with sub-agents.")
 
-    def process_resume_and_generate_question(self, resume_content: bytes, file_name: str) -> Tuple[Optional[Union[List[str], str]], Optional[str]]:
+    def process_resume_and_generate_question(self, resume_content: bytes, file_name: str, difficulty: str) -> Tuple[Optional[Union[List[str], str]], Optional[str]]:
         """
         Coordinates the resume analysis and question generation process.
 
         Args:
             resume_content: The content of the uploaded resume as bytes.
             file_name: The name of the uploaded file.
+            difficulty: The desired difficulty level for the question (e.g., "Easy", "Medium", "Hard").
 
         Returns:
             A tuple containing (extracted_skills, generated_question).
             Returns (None, None) if any step fails, or (skills, None) if only question generation fails.
         """
-        print(f"ManagerAgent: Received resume '{file_name}', starting analysis...")
+        print(f"ManagerAgent: Received resume '{file_name}' for {difficulty} question, starting analysis...")
         
         extracted_skills_data = self.resume_analyzer.analyze(resume_content, file_name)
         if not extracted_skills_data:
@@ -39,7 +40,7 @@ class ManagerAgent:
             print("ManagerAgent: Missing skills or experience from analysis.")
             return None, None
 
-        generated_question = self.question_generator.generate(skills, experience)
+        generated_question = self.question_generator.generate(skills, experience, difficulty)
         if not generated_question:
             print("ManagerAgent: Failed to generate a question.")
             # Return skills even if question generation fails, so UI can show something
@@ -49,19 +50,20 @@ class ManagerAgent:
 
         return skills, generated_question
 
-    def evaluate_code_submission(self, question: str, code_submission: str) -> Optional[str]:
+    def evaluate_code_submission(self, question: str, code_submission: str, language: str) -> Optional[str]:
         """
         Coordinates the code evaluation process.
 
         Args:
             question: The coding question that was asked.
             code_submission: The user's code submission.
+            language: The detected programming language of the submission.
 
         Returns:
             Feedback on the code submission, or None if evaluation fails.
         """
-        print(f"ManagerAgent: Received code submission for question: {question}")
-        feedback = self.code_evaluator.evaluate(question, code_submission)
+        print(f"ManagerAgent: Received {language} code submission for question: {question}")
+        feedback = self.code_evaluator.evaluate(question, code_submission, language)
         if not feedback:
             print("ManagerAgent: Failed to evaluate code.")
             return None
